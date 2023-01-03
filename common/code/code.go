@@ -1,0 +1,15 @@
+package code
+
+const (
+	// OK
+	GET_OK    = 20001
+	POST_OK   = 20011
+	PUT_OK    = 20021
+	DELETE_OK = 20031
+
+	// ERROR
+	GET_ERROR    = 20000
+	POST_ERROR   = 20010
+	PUT_ERROR    = 20020
+	DELETE_ERROR = 20030
+)

@@ -6,6 +6,6 @@ import (
 )
 
 var (
-	GVA_DB *gorm.DB
-	GVA_VP *viper.Viper
+	DB *gorm.DB
+	VP *viper.Viper
 )

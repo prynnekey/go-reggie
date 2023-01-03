@@ -4,10 +4,11 @@ import (
 	"log"
 	"os"
 
-	"github.com/prynnekey/go-reggie/server/global"
+	"github.com/prynnekey/go-reggie/global"
 	"github.com/spf13/viper"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
 func InitConfig() {
@@ -27,13 +28,6 @@ func InitConfig() {
 		panic(err)
 	}
 
-	// // 获取全部文件内容
-	// fmt.Printf("viper.AllSettings(): %v\n", viper.AllSettings())
-	// fmt.Println("--------------")
-	//
-	// fmt.Printf("viper.GetString(\"database.mysql.datasource.host\"): %v\n", viper.GetString("database.mysql.datasource.host"))
-	// fmt.Printf("viper.GetInt(\"database.mysql.datasource.port\"): %v\n", viper.GetInt("database.mysql.datasource.port"))
-
 	initMysql()
 
 }
@@ -47,7 +41,10 @@ func initMysql() {
 		Dbname:   viper.GetString("database.mysql.datasource.dbname"),
 	}
 	dsn := gormMysql.Dsn()
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
+		// 开启显示sql日志
+		Logger: logger.Default.LogMode(logger.Info),
+	})
 	if err != nil {
 		panic(err)
 	}
@@ -63,5 +60,5 @@ func initMysql() {
 
 	// fmt.Println("连接数据库成功")
 
-	global.GVA_DB = db
+	global.DB = db
 }

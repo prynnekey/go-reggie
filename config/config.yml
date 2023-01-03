@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 database: 
   mysql:
     datasource:
@@ -5,4 +8,4 @@ database:
       port: 3306
       username: root
       password: prynnekey
-      dbname: reggie
+      dbname: gin_reggie
