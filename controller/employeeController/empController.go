@@ -122,6 +122,6 @@ func Page() gin.HandlerFunc {
 		}
 
 		// 返回
-		response.Success(ctx, empDtoList, "查询成功")
+		response.Success(ctx, gin.H{"records": empDtoList}, "查询成功")
 	}
 }
