@@ -5,9 +5,9 @@ import (
 )
 
 type Base struct {
-	ID          uint      `gorm:"primarykey"`
-	CreatedTime time.Time `gorm:"column:create_time"`
-	UpdatedTime time.Time `gorm:"column:update_time"`
-	CreatedUser uint      `gorm:"column:create_user"`
-	UpdatedUser uint      `gorm:"column:update_user"`
+	ID          uint      `gorm:"primarykey" json:"id"`
+	CreatedTime time.Time `gorm:"column:create_time;autoCreateTime" json:"createTime"`
+	UpdatedTime time.Time `gorm:"column:update_time;autoUpdateTime" json:"updateTime"`
+	CreatedUser uint      `gorm:"column:create_user" json:"createUser"`
+	UpdatedUser uint      `gorm:"column:update_user" json:"updateUser"`
 }
