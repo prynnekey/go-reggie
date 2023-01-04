@@ -1,8 +1,6 @@
 package middleware
 
 import (
-	"fmt"
-
 	"github.com/gin-gonic/gin"
 	"github.com/prynnekey/go-reggie/common/code"
 	"github.com/prynnekey/go-reggie/common/response"
@@ -17,8 +15,6 @@ func Exception() gin.HandlerFunc {
 				ctx.Abort()
 			}
 		}()
-
-		fmt.Println("走到这里了吗")
 
 		ctx.Next()
 	}
