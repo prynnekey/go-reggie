@@ -13,6 +13,7 @@ func InitRouter() {
 	r.Use(middleware.Exception())
 
 	initEmp(r)
+	initCategory(r)
 
 	r.Run(":" + port)
 }
