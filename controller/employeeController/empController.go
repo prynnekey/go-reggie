@@ -62,8 +62,8 @@ func AddEmp() gin.HandlerFunc {
 		bindEmp.Password = utils.MD5("123456")
 
 		// 插入数据
-		i := employeeDao.SaveEmp(&bindEmp)
-		if i == 0 {
+		row, _ := employeeDao.SaveEmp(&bindEmp)
+		if row == 0 {
 			response.Failed(ctx, code.POST_ERROR, "新增员工失败")
 			return
 		}

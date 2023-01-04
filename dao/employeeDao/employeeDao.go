@@ -15,7 +15,9 @@ func GetByUsername(username string) (*employee.Employee, error) {
 	return emp, nil
 }
 
-func SaveEmp(emp *employee.Employee) int64 {
-	row := global.DB.Create(emp).RowsAffected
-	return row
+func SaveEmp(emp *employee.Employee) (int64, error) {
+	tx := global.DB.Create(emp)
+	row := tx.RowsAffected
+	err := tx.Error
+	return row, err
 }

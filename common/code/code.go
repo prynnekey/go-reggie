@@ -12,4 +12,7 @@ const (
 	POST_ERROR   = 20010
 	PUT_ERROR    = 20020
 	DELETE_ERROR = 20030
+
+	// 未知错误
+	UNKNOW_ERROR = 77777
 )
