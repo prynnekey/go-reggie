@@ -22,6 +22,7 @@ func initEmp(r *gin.Engine) {
 		emp.GET("/page", employeeController.Page())
 
 		// 更新员工数据
+		// BUG: 无法同时修改状态和其他信息
 		emp.PUT("/", employeeController.EditEmp())
 	}
 }
