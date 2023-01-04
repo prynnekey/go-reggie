@@ -1,13 +1,13 @@
 package employeeController
 
 import (
-	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 	"github.com/prynnekey/go-reggie/common/code"
 	"github.com/prynnekey/go-reggie/common/response"
 	"github.com/prynnekey/go-reggie/dao/employeeDao"
+	"github.com/prynnekey/go-reggie/dto/employeeDto"
 	"github.com/prynnekey/go-reggie/models/employee"
 	"github.com/prynnekey/go-reggie/utils"
 )
@@ -95,10 +95,6 @@ func Page() gin.HandlerFunc {
 			return
 		}
 
-		fmt.Printf("page: %v\n", page)
-		fmt.Printf("pageSize: %v\n", pageSize)
-		fmt.Printf("name: %v\n", name)
-
 		// 查询数据库
 		empList, err := employeeDao.GetPage(page, pageSize, name)
 		if err != nil {
@@ -106,7 +102,16 @@ func Page() gin.HandlerFunc {
 			return
 		}
 
+		// 将结果封装为Dto类 防止数据泄露
+		empDtoList := make([]employeeDto.EmployeeDto, 0)
+
+		// index, value
+		for _, emp := range empList {
+			empDto := employeeDto.NewEmpDto(emp)
+			empDtoList = append(empDtoList, empDto)
+		}
+
 		// 返回
-		response.Success(ctx, code.GET_OK, empList, "查询成功")
+		response.Success(ctx, code.GET_OK, empDtoList, "查询成功")
 	}
 }
