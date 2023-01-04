@@ -34,3 +34,9 @@ func DeleteById(id string) (int64, error) {
 	d := global.DB.Delete(&category.Category{}, id)
 	return d.RowsAffected, d.Error
 }
+
+// 更新数据
+func Update(category *category.Category) (int64, error) {
+	d := global.DB.Model(category).Updates(category)
+	return d.RowsAffected, d.Error
+}

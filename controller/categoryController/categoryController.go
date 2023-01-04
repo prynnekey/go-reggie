@@ -1,6 +1,7 @@
 package categoryController
 
 import (
+	"fmt"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -83,5 +84,29 @@ func Delete() gin.HandlerFunc {
 
 		// 返回删除成功
 		response.Success(ctx, "删除成功", "")
+	}
+}
+
+func Update() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		cate := category.Category{}
+		ctx.ShouldBindJSON(&cate)
+
+		fmt.Printf("cate: %v\n", cate)
+
+		// 更新数据
+		i, err := categoryDao.Update(&cate)
+		if err != nil {
+			response.Failed(ctx, err.Error())
+			return
+		}
+
+		if i == 0 {
+			response.Failed(ctx, "更新失败 请联系管理员")
+			return
+		}
+
+		// 返回信息
+		response.Success(ctx, "修改成功", "")
 	}
 }

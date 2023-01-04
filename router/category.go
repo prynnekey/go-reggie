@@ -17,6 +17,7 @@ func initCategory(r *gin.Engine) {
 		// 删除分类
 		cate.DELETE("/", categoryController.Delete())
 
-		// TODO: 修改分类
+		// 修改分类
+		cate.PUT("/", categoryController.Update())
 	}
 }
