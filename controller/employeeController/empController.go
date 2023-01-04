@@ -130,15 +130,15 @@ func Page() gin.HandlerFunc {
 	}
 }
 
-// 修改员工状态
-func EditStatus() gin.HandlerFunc {
+// 更新员工数据
+func EditEmp() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		// 获取数据
 		emp := employee.Employee{}
 		ctx.ShouldBindJSON(&emp)
 
 		// 插入数据
-		row, err := employeeDao.EditStatus(&emp)
+		row, err := employeeDao.EditEmp(emp)
 		if err != nil {
 			response.Failed(ctx, err.Error())
 			return

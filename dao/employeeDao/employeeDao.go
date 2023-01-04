@@ -5,6 +5,7 @@ import (
 
 	"github.com/prynnekey/go-reggie/global"
 	"github.com/prynnekey/go-reggie/models/employee"
+	"gorm.io/gorm"
 )
 
 func GetByUsername(username string) (*employee.Employee, error) {
@@ -49,7 +50,13 @@ func GetPage(page int, pageSize int, name string) ([]employee.Employee, error) {
 }
 
 // 修改员工状态
-func EditStatus(emp *employee.Employee) (int64, error) {
-	d := global.DB.Model(&emp).Where("id = ?", emp.ID).Update("status", emp.Status)
+func EditEmp(emp employee.Employee) (int64, error) {
+	// BUG: 无法同时修改状态和其他信息
+	var d *gorm.DB
+	if emp.Status == 0 {
+		d = global.DB.Model(&emp).Where("id = ?", emp.ID).Update("status", emp.Status)
+	} else {
+		d = global.DB.Model(&emp).Updates(emp)
+	}
 	return d.RowsAffected, d.Error
 }
