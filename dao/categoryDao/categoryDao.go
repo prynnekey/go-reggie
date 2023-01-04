@@ -29,3 +29,8 @@ func Save(category *category.Category) (int64, error) {
 	err := d.Error
 	return row, err
 }
+
+func DeleteById(id string) (int64, error) {
+	d := global.DB.Delete(&category.Category{}, id)
+	return d.RowsAffected, d.Error
+}

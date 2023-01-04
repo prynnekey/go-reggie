@@ -62,3 +62,26 @@ func AddCategory() gin.HandlerFunc {
 		response.Success(ctx, "新增分类成功", "")
 	}
 }
+
+// 删除分类
+func Delete() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		// 获取参数
+		ids := ctx.Query("ids")
+
+		// 从数据库中删除
+		i, err := categoryDao.DeleteById(ids)
+		if err != nil {
+			response.Failed(ctx, err.Error())
+			return
+		}
+
+		if i == 0 {
+			response.Failed(ctx, "删除失败,改菜品不存在")
+			return
+		}
+
+		// 返回删除成功
+		response.Success(ctx, "删除成功", "")
+	}
+}

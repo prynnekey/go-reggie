@@ -13,5 +13,10 @@ func initCategory(r *gin.Engine) {
 
 		// 新增分类
 		cate.POST("", categoryController.AddCategory())
+
+		// 删除分类
+		cate.DELETE("/", categoryController.Delete())
+
+		// TODO: 修改分类
 	}
 }
