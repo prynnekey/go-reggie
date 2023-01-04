@@ -33,13 +33,13 @@ func GetPage(page int, pageSize int, name string) ([]employee.Employee, error) {
 
 	if name == "" {
 		// select * from empList limit pageSize offset (page - 1) * pageSize
-		err := global.DB.Limit(pageSize).Offset((page - 1) * pageSize).Find(&empList).Error
+		err := global.DB.Limit(pageSize).Offset((page - 1) * pageSize).Order("update_time").Find(&empList).Error
 		if err != nil {
 			return nil, err
 		}
 	} else {
 		// select * from empList where name like %?% limit pageSize offset (page - 1) * pageSize
-		err := global.DB.Where(fmt.Sprintf("name like '%%%s%%'", name)).Limit(pageSize).Offset((page - 1) * pageSize).Find(&empList).Error
+		err := global.DB.Where(fmt.Sprintf("name like '%%%s%%'", name)).Limit(pageSize).Offset((page - 1) * pageSize).Order("update_time").Find(&empList).Error
 		if err != nil {
 			return nil, err
 		}
