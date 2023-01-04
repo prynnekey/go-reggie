@@ -10,5 +10,8 @@ func initCategory(r *gin.Engine) {
 	{
 		// 分页查询
 		cate.GET("/page", categoryController.Page())
+
+		// 新增分类
+		cate.POST("", categoryController.AddCategory())
 	}
 }

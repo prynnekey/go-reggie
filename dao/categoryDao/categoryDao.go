@@ -20,3 +20,12 @@ func GetPage(page int, pageSize int) ([]category.Category, error) {
 
 	return cateList, nil
 }
+
+// 将数据保存到数据库
+// 返回影响的行数和错误信息
+func Save(category *category.Category) (int64, error) {
+	d := global.DB.Create(category)
+	row := d.RowsAffected
+	err := d.Error
+	return row, err
+}
