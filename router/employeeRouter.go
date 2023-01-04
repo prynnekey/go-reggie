@@ -12,6 +12,9 @@ func initEmp(r *gin.Engine) {
 		// 登录
 		emp.POST("/login", employeeController.Login())
 
+		// 登出
+		emp.POST("/logout", employeeController.Logout())
+
 		// 添加员工
 		emp.POST("", employeeController.AddEmp())
 

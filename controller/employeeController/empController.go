@@ -50,6 +50,17 @@ func Login() gin.HandlerFunc {
 	}
 }
 
+func Logout() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		value, exists := ctx.Get("emp")
+		if !exists {
+			response.Failed(ctx, "登出失败")
+			return
+		}
+		response.Success(ctx, value, "登出成功")
+	}
+}
+
 // 添加员工
 func AddEmp() gin.HandlerFunc {
 	// TODO: 捕获异常信息
