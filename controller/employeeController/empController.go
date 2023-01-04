@@ -4,7 +4,6 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/prynnekey/go-reggie/common/code"
 	"github.com/prynnekey/go-reggie/common/response"
 	"github.com/prynnekey/go-reggie/dao/employeeDao"
 	"github.com/prynnekey/go-reggie/dto/employeeDto"
@@ -27,19 +26,19 @@ func Login() gin.HandlerFunc {
 		emp, err := employeeDao.GetByUsername(username)
 		if err != nil {
 			// 如何数据为空 返回用户不存在
-			response.Failed(ctx, code.POST_ERROR, "用户不存在")
+			response.Failed(ctx, "用户不存在")
 			return
 		}
 
 		// 数据不为空 密码不正确
 		if emp.Password != password {
-			response.Failed(ctx, code.POST_ERROR, "密码错误")
+			response.Failed(ctx, "密码错误")
 			return
 		}
 
 		// 判断是否被禁用
 		if emp.Status != 1 {
-			response.Failed(ctx, code.POST_ERROR, "账号已禁用")
+			response.Failed(ctx, "账号已禁用")
 			return
 		}
 
@@ -47,7 +46,7 @@ func Login() gin.HandlerFunc {
 		// 返回登录成功 并将用户id存储在上下文中
 		ctx.Set("emp", emp.ID)
 
-		response.Success(ctx, code.POST_OK, emp, "登录成功")
+		response.Success(ctx, emp, "登录成功")
 	}
 }
 
@@ -67,11 +66,11 @@ func AddEmp() gin.HandlerFunc {
 		// 插入数据
 		row, _ := employeeDao.SaveEmp(&bindEmp)
 		if row == 0 {
-			response.Failed(ctx, code.POST_ERROR, "新增员工失败")
+			response.Failed(ctx, "新增员工失败")
 			return
 		}
 
-		response.Success(ctx, code.POST_OK, bindEmp, "新增成功")
+		response.Success(ctx, bindEmp, "新增成功")
 	}
 }
 
@@ -85,20 +84,20 @@ func Page() gin.HandlerFunc {
 
 		page, err := strconv.Atoi(_page)
 		if err != nil {
-			response.Failed(ctx, code.GET_ERROR, "page参数不正确")
+			response.Failed(ctx, "page参数不正确")
 			return
 		}
 
 		pageSize, err := strconv.Atoi(_pageSize)
 		if err != nil {
-			response.Failed(ctx, code.GET_ERROR, "pageSize参数不正确")
+			response.Failed(ctx, "pageSize参数不正确")
 			return
 		}
 
 		// 查询数据库
 		empList, err := employeeDao.GetPage(page, pageSize, name)
 		if err != nil {
-			response.Failed(ctx, code.GET_ERROR, "查询失败")
+			response.Failed(ctx, "查询失败")
 			return
 		}
 
@@ -112,6 +111,6 @@ func Page() gin.HandlerFunc {
 		}
 
 		// 返回
-		response.Success(ctx, code.GET_OK, empDtoList, "查询成功")
+		response.Success(ctx, empDtoList, "查询成功")
 	}
 }
