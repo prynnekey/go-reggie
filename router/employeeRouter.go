@@ -14,5 +14,8 @@ func initEmp(r *gin.Engine) {
 
 		// 添加员工
 		emp.POST("", employeeController.AddEmp())
+
+		// 分页查询
+		emp.GET("/page", employeeController.Page())
 	}
 }

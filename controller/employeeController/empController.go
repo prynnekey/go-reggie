@@ -1,6 +1,9 @@
 package employeeController
 
 import (
+	"fmt"
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/prynnekey/go-reggie/common/code"
 	"github.com/prynnekey/go-reggie/common/response"
@@ -69,5 +72,41 @@ func AddEmp() gin.HandlerFunc {
 		}
 
 		response.Success(ctx, code.POST_OK, bindEmp, "新增成功")
+	}
+}
+
+// 分页查询
+func Page() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		// 获取数据
+		_page := ctx.Query("page")
+		_pageSize := ctx.Query("pageSize")
+		name := ctx.Query("name")
+
+		page, err := strconv.Atoi(_page)
+		if err != nil {
+			response.Failed(ctx, code.GET_ERROR, "page参数不正确")
+			return
+		}
+
+		pageSize, err := strconv.Atoi(_pageSize)
+		if err != nil {
+			response.Failed(ctx, code.GET_ERROR, "pageSize参数不正确")
+			return
+		}
+
+		fmt.Printf("page: %v\n", page)
+		fmt.Printf("pageSize: %v\n", pageSize)
+		fmt.Printf("name: %v\n", name)
+
+		// 查询数据库
+		empList, err := employeeDao.GetPage(page, pageSize, name)
+		if err != nil {
+			response.Failed(ctx, code.GET_ERROR, "查询失败")
+			return
+		}
+
+		// 返回
+		response.Success(ctx, code.GET_OK, empList, "查询成功")
 	}
 }
