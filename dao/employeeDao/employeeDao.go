@@ -47,3 +47,9 @@ func GetPage(page int, pageSize int, name string) ([]employee.Employee, error) {
 
 	return empList, nil
 }
+
+// 修改员工状态
+func EditStatus(emp *employee.Employee) (int64, error) {
+	d := global.DB.Model(&emp).Where("id = ?", emp.ID).Update("status", emp.Status)
+	return d.RowsAffected, d.Error
+}

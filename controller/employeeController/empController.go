@@ -75,7 +75,11 @@ func AddEmp() gin.HandlerFunc {
 		bindEmp.Password = utils.MD5("123456")
 
 		// 插入数据
-		row, _ := employeeDao.SaveEmp(&bindEmp)
+		row, err := employeeDao.SaveEmp(&bindEmp)
+		if err != nil {
+			response.Failed(ctx, err.Error())
+		}
+
 		if row == 0 {
 			response.Failed(ctx, "新增员工失败")
 			return
@@ -123,5 +127,28 @@ func Page() gin.HandlerFunc {
 
 		// 返回
 		response.Success(ctx, gin.H{"records": empDtoList}, "查询成功")
+	}
+}
+
+// 修改员工状态
+func EditStatus() gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		// 获取数据
+		emp := employee.Employee{}
+		ctx.ShouldBindJSON(&emp)
+
+		// 插入数据
+		row, err := employeeDao.EditStatus(&emp)
+		if err != nil {
+			response.Failed(ctx, err.Error())
+			return
+		}
+
+		if row == 0 {
+			response.Failed(ctx, "id不存在")
+			return
+		}
+
+		response.Success(ctx, "修改成功", "修改成功")
 	}
 }

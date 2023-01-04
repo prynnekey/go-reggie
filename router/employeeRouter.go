@@ -20,5 +20,8 @@ func initEmp(r *gin.Engine) {
 
 		// 分页查询
 		emp.GET("/page", employeeController.Page())
+
+		// 修改员工状态
+		emp.PUT("/", employeeController.EditStatus())
 	}
 }
